@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 //#include "log.h"
-#include "demand.h"
-#include "imfo.h"
+//#include "demand.h"
+
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
@@ -212,17 +212,54 @@ void MainWindow::on_resetTravelerInfo_clicked()
 //点击生成旅行路线
 void MainWindow::on_creatTravelPath_Click_clicked()
 {
+    vector<imfo> path;
     client.set_departure(ui->Start_Select->currentIndex());
     client.set_arrival(ui->End_Select->currentIndex());
     client.set_strategy(ui->Mode_Select->currentIndex());
     client.set_start_time(ui->TimeRange_Start->currentIndex());
-    client.least_money();
+    path = client.least_money();
 
-    ui->label->setNum(tmp);
     ui->TravelPath_Output->setText("000");
     ui->TravelerNumber_Output->setText("000");
-}
+    printout(path);
 
+}
+void MainWindow::printout(vector<imfo> path)
+{
+    ui->TravelPath_Output->setText("");
+    QString str;
+    vector<imfo>::iterator iter1;
+        for (iter1 = path.begin(); iter1 != path.end(); iter1++)
+        {
+
+            switch (iter1->get_type())
+            {
+            case 1:str+=("乘坐巴士   "+  QString::fromStdString(iter1->Get_number())+
+                         "     于"+QString::number(iter1->Get_departure_time())+
+                         "点从"+iter1->get_departure()+"出发 "+
+                         QString::number(iter1->Get_arrival_time())+"点到达" +
+                         iter1->get_arrival()+ "  花费："+QString::number(iter1->Get_price())+"元"+'\n');
+                break;
+            case 2:str+=("乘坐飞机   "+  QString::fromStdString(iter1->Get_number())+
+                         "     于"+QString::number(iter1->Get_departure_time())+
+                         "点从"+iter1->get_departure()+"出发 "+
+                         QString::number(iter1->Get_arrival_time())+"点到达" +
+                         iter1->get_arrival()+ "  花费："+QString::number(iter1->Get_price())+"元"+'\n');
+                break;
+            case 3:ui->TravelPath_Output->setText("乘坐火车   "+  QString::fromStdString(iter1->Get_number())+
+                                                  "     于"+QString::number(iter1->Get_departure_time())+
+                                                  "点从"+iter1->get_departure()+"出发 "+
+                                                  QString::number(iter1->Get_arrival_time())+"点到达" +
+                                                  iter1->get_arrival());
+            default:
+                break;
+            }
+
+        }
+        str+=("总费用为："+QString::number(tmp) + "元");
+    ui->TravelPath_Output->setText(str);
+
+}
 //显示预计耗时
 void MainWindow::showTotalTime()
 {

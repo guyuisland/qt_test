@@ -27,6 +27,10 @@
 #include <QLayout>
 #include <QPalette>
 
+#include<vector>
+#include"demand.h"
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -68,6 +72,7 @@ private:
     int getAmPm_1();//获取早上/下午
     int getAmPm_2();//获取早上/下午
 
+    void printout(std::vector<imfo> path);
     void enTimeBudget_Input();//根据旅行模式修改时间预算是否可填
     void getTimeBudget();//获取时间预算
     void showTravelerNumber();//显示旅客编号

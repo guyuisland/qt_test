@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include"imfo.h"
+//#include"imfo.h"
 
 int main(int argc, char *argv[])
 {

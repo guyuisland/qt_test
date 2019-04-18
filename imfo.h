@@ -43,4 +43,7 @@ public:
     int get_arrival_time(){
         return arrival_time;
     }
+    int get_type(){
+        return type;
+    }
 };
